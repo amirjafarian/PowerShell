@@ -21,7 +21,7 @@ foreach($mbox in $mailboxes)
     try
     {
 #        Get-ADPermission | where {($_.ExtendedRights -like “*Send-As*”) -and ($_.IsInherited -eq $false) -and -not ($_.User -like “NT AUTHORITY\SELF”)} 
-        $permission = Get-ADPermission -Identity "$DN" | where {($_.ExtendedRights -like “*Send-As*”) -and $_.IsInherited -eq $false -and  $excludedUsers -notcontains $_.User}
+        $permission = Get-ADPermission -Identity "$DN" | where {($_.ExtendedRights -like "*Send-As*") -and $_.IsInherited -eq $false -and  $excludedUsers -notcontains $_.User}
 
     }
     catch 
