@@ -13,27 +13,52 @@ MSDN links to determine which versions of .NET are installed.
 
 .Notes
 AUTHOR: David Mohundro
+
+This code amemnded by Amir Jafarian to use it as function on Github
 #>
+function Get-NetFramework
+{
+    [CmdletBinding()]
+    [Alias()]
+    [OutputType([int])]
+    Param
+    (
+    )
 
-$ndpDirectory = 'hklm:\SOFTWARE\Microsoft\NET Framework Setup\NDP\'
+    Begin
+    {
+    }
+    Process
+    {
+        $ndpDirectory = 'hklm:\SOFTWARE\Microsoft\NET Framework Setup\NDP\'
 
-if (Test-Path "$ndpDirectory\v2.0.50727") {
-    $version = Get-ItemProperty "$ndpDirectory\v2.0.50727" -name Version | select Version
-    $version
+        if (Test-Path "$ndpDirectory\v2.0.50727") {
+            $version = Get-ItemProperty "$ndpDirectory\v2.0.50727" -name Version | select Version
+            $version
+        }
+
+        if (Test-Path "$ndpDirectory\v3.0") {
+            $version = Get-ItemProperty "$ndpDirectory\v3.0" -name Version | select Version
+            $version
+        }
+
+        if (Test-Path "$ndpDirectory\v3.5") {
+            $version = Get-ItemProperty "$ndpDirectory\v3.5" -name Version | select Version
+            $version
+        }
+
+        $v4Directory = "$ndpDirectory\v4\Full"
+        if (Test-Path $v4Directory) {
+            $version = Get-ItemProperty $v4Directory -name Version | select -expand Version
+            $version
+        }
+
+    }
+    End
+    {
+    }
 }
 
-if (Test-Path "$ndpDirectory\v3.0") {
-    $version = Get-ItemProperty "$ndpDirectory\v3.0" -name Version | select Version
-    $version
-}
 
-if (Test-Path "$ndpDirectory\v3.5") {
-    $version = Get-ItemProperty "$ndpDirectory\v3.5" -name Version | select Version
-    $version
-}
 
-$v4Directory = "$ndpDirectory\v4\Full"
-if (Test-Path $v4Directory) {
-    $version = Get-ItemProperty $v4Directory -name Version | select -expand Version
-    $version
-}
+
